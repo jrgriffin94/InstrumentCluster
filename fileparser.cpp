@@ -27,7 +27,7 @@ bool FileParser::parse()
 
 void FileParser::run()
 {
-    QFile file("../Data/GeneratedNoisyCoordinateDat.csv");
+    QFile file("../InstrumentCluster/Data/GeneratedNoisyCoordinateDat.csv");
 
     QTextStream out(stdout);
 
