@@ -20,7 +20,9 @@ public:
 
 signals:
     void parsedData(const QByteArray &data);
-    void setSOC(const double SOC);
+    void setSOC(const int SOC);
+    void setRPM(const int SOC);
+    void setMtrTemp(const double SOC);
 
 protected:
     void run() override;
@@ -29,8 +31,6 @@ private:
     QWaitCondition condition;
     QMutex mutex;
     bool abort;
-    // QFile file;
-
 };
 
 #endif // FILEPARSER_H

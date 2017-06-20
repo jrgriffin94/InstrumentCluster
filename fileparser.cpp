@@ -3,9 +3,7 @@
 FileParser::FileParser(QObject *parent)
     : QThread(parent)
 {
-    //QFile file("C:\Users\Joseph Griffin\Documents\InstrumentCloster\Data\GeneratedNoisyCoordinateDat.csv");
     abort = false;
-
 }
 
 FileParser::~FileParser()
@@ -29,7 +27,7 @@ bool FileParser::parse()
 
 void FileParser::run()
 {
-    QFile file("../InstrumentCloster/Data/GeneratedNoisyCoordinateDat.csv");
+    QFile file("../Data/GeneratedNoisyCoordinateDat.csv");
 
     QTextStream out(stdout);
 
@@ -50,9 +48,18 @@ void FileParser::run()
 
         if (!file.atEnd()) {
             line = file.readLine();
+
             QString SOCstr = line.split(',')[3];
-            double SOC = SOCstr.toDouble();
+            QString RPMstr = line.split(',')[5];
+            QString MtrTempStr = line.split(',')[6];
+
+            int SOC = SOCstr.toDouble();
+            int RPM = RPMstr.toDouble();
+            double MtrTemp = MtrTempStr.toDouble();
+
             emit setSOC(SOC);
+            emit setRPM(RPM);
+            emit setMtrTemp(MtrTemp);
         }
         else
         {
@@ -63,7 +70,7 @@ void FileParser::run()
             mutex.unlock();
         }
 
-        usleep(1);
+        msleep(5);
     }
 
     file.close();

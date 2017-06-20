@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2017-06-02T22:33:15
+# Project created by QtCreator 2017-06-04T18:10:28
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = InstrumentCloster
+TARGET = InstrumentCluster
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -24,10 +24,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        instrumentcluster.cpp \
+        cluster.cpp \
     fileparser.cpp
 
-HEADERS  += instrumentcluster.h \
+HEADERS  += cluster.h \
     fileparser.h
 
-FORMS    += instrumentcluster.ui
+FORMS    += cluster.ui
