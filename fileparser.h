@@ -24,6 +24,10 @@ signals:
     void setRPM(const int SOC);
     void setMtrTemp(const double SOC);
 
+    void newLatitude(const double latitude);
+    void newLongitude(const double longitude);
+    void coordsUpdated();
+
 protected:
     void run() override;
 

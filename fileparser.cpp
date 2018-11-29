@@ -1,5 +1,16 @@
 #include "fileparser.h"
 
+/*
+    SOC = SOCstr.toDouble();
+    RPM = RPMstr.toDouble();
+    MtrTemp = MtrTempStr.toDouble();
+
+    emit setSOC(SOC);
+    emit setRPM(RPM);
+    emit setMtrTemp(MtrTemp);
+
+*/
+
 FileParser::FileParser(QObject *parent)
     : QThread(parent)
 {
@@ -27,7 +38,9 @@ bool FileParser::parse()
 
 void FileParser::run()
 {
-    QFile file("../InstrumentCluster/Data/GeneratedNoisyCoordinateDat.csv");
+    QFile file;
+
+    file.setFileName("kalmanData.txt");
 
     QTextStream out(stdout);
 
@@ -39,7 +52,13 @@ void FileParser::run()
         mutex.unlock();
     }
 
-    QByteArray line = file.readLine();
+    //QByteArray line = file.readLine();
+    QString lat;
+    QString lng;
+
+    double latitude;
+    double longitude;
+
 
     forever
     {
@@ -47,19 +66,16 @@ void FileParser::run()
             return;
 
         if (!file.atEnd()) {
-            line = file.readLine();
+            lat = file.readLine();
+            lng = file.readLine();
+            file.readLine();
 
-            QString SOCstr = line.split(',')[3];
-            QString RPMstr = line.split(',')[5];
-            QString MtrTempStr = line.split(',')[6];
+            latitude    = lat.mid(0, 2).toUInt(nullptr, 10) + lat.mid(2, -1).toDouble()/60;
+            longitude   = -(lng.mid(1, 2).toUInt(nullptr, 10) + lng.mid(3, -1).toDouble()/60);
 
-            int SOC = SOCstr.toDouble();
-            int RPM = RPMstr.toDouble();
-            double MtrTemp = MtrTempStr.toDouble();
-
-            emit setSOC(SOC);
-            emit setRPM(RPM);
-            emit setMtrTemp(MtrTemp);
+            emit newLatitude(latitude);
+            emit newLongitude(longitude);
+            emit coordsUpdated();
         }
         else
         {
@@ -70,7 +86,7 @@ void FileParser::run()
             mutex.unlock();
         }
 
-        msleep(5);
+        msleep(200);
     }
 
     file.close();

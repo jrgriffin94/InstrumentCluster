@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -24,10 +24,49 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        cluster.cpp \
-    fileparser.cpp
+    cluster.cpp \
+    fileparser.cpp \
+    alphakalmanfilter.cpp \
+    canreader.cpp \
+    gpsreader.cpp \
+    betakalmanfilter.cpp \
+    rpmgauge.cpp \
+    socgauge.cpp \
+    laptiming.cpp \
+    laptimepanel.cpp
 
-HEADERS  += cluster.h \
-    fileparser.h
+HEADERS += cluster.h \
+    fileparser.h \
+    alphakalmanfilter.h \
+    canreader.h \
+    gpsreader.h \
+    betakalmanfilter.h \
+    rpmgauge.h \
+    socgauge.h \
+    laptiming.h \
+    laptimepanel.h
 
-FORMS    += cluster.ui
+FORMS   += cluster.ui
+
+
+unix {
+INCLUDEPATH += \
+    /home/joe/raspi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/arm-linux-gnueabihf/libc/usr/include \
+    /home/joe/raspi/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/arm-linux-gnueabihf/libc/usr/lib \
+
+LIBS += \
+    -larmadillo
+}
+
+win32 {
+INCLUDEPATH += \
+    C:\Armadillo\include
+
+LIBS += \
+    -LC:\Armadillo\lib_win64 \
+    -llapack_win64_MT \
+    -lblas_win64_MT
+}
+
+target.path = /home/pi
+INSTALLS += target
